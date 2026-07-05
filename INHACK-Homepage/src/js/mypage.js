@@ -25,6 +25,13 @@ function renderSidebarNav(menuItems) {
     a.href = resolvedUrl;
     a.className = 'nav-item-link';
     a.textContent = item.title;
+    if (item.title === 'Dreamhack') {
+      a.style.color = '#ff6b00';
+      a.style.fontWeight = 'bold';
+      a.innerHTML = 'Dreamhack <span style="font-size: 0.65rem; padding: 2px 5px; background: rgba(255, 107, 0, 0.15); border: 1px solid rgba(255, 107, 0, 0.4); border-radius: 3px; color: #ff6b00; margin-left: 6px; font-weight: normal; vertical-align: middle;">SYNC</span>';
+      li.style.borderLeft = '3px solid #ff6b00';
+      li.style.background = 'rgba(255, 107, 0, 0.03)';
+    }
     if (item.external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
     if (window.location.pathname === resolvedUrl) a.classList.add('active');
     li.appendChild(a);
