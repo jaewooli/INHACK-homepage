@@ -3350,6 +3350,23 @@ async function initializeAdminPanel() {
     const form = document.getElementById('admin-create-code-form');
     if (!form) return;
 
+    const randBtn = document.getElementById('admin-gen-rand-code-btn');
+    if (randBtn) {
+      randBtn.addEventListener('click', () => {
+        const codeInput = document.getElementById('admin-code-val');
+        if (codeInput) {
+          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          const array = new Uint32Array(16);
+          window.crypto.getRandomValues(array);
+          let randomCode = '';
+          for (let i = 0; i < array.length; i++) {
+            randomCode += chars[array[i] % chars.length];
+          }
+          codeInput.value = randomCode;
+        }
+      });
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const codeInput = document.getElementById('admin-code-val');

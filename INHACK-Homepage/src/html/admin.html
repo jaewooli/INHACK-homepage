@@ -96,7 +96,10 @@
                                     <form id="admin-create-code-form" class="admin-form" style="margin-bottom: 1.5rem;">
                                         <div class="admin-form-group" style="margin-bottom: 1rem;">
                                             <label for="admin-code-val">가입 코드 (Signup Code)</label>
-                                            <input type="text" id="admin-code-val" placeholder="예: INHACK_2026_1" required style="margin-bottom: 0;">
+                                            <div style="display: flex; gap: 8px;">
+                                                <input type="text" id="admin-code-val" placeholder="직접 입력하거나 우측 생성 버튼 클릭" required style="margin-bottom: 0; flex: 1;">
+                                                <button type="button" id="admin-gen-rand-code-btn" class="action-btn" style="margin-top: 0; padding: 0.8rem 1rem; font-size: 0.75rem; white-space: nowrap; border-color: #f59e0b; color: #f59e0b; height: 100%;">랜덤 생성</button>
+                                            </div>
                                         </div>
                                         <div class="admin-form-group" style="margin-bottom: 1rem;">
                                             <label for="admin-code-gen">부여할 기수명 (Activity Period)</label>
