@@ -2164,6 +2164,13 @@ body.resizing-active {
     color: #3b82f6;
 }
 
+.page-admin .user-col-activities,
+.page-admin .header-col-activities {
+    flex: 2;
+    min-width: 0;
+    padding-right: 8px;
+}
+
 .page-admin .user-col-solved a.view-solves-link {
     color: #3b82f6;
     text-decoration: underline;
