@@ -692,3 +692,28 @@ p a:hover {
     border-color: var(--color-cyan) !important;
     box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
 }
+
+/* Dreamhack specific button styles */
+#dreamhack-confirm {
+    background-color: rgba(255, 107, 0, 0.05) !important;
+    border: 1px solid #ff6b00 !important;
+    color: #ff6b00 !important;
+    transition: all 0.2s ease;
+}
+#dreamhack-confirm:hover {
+    background-color: #ff6b00 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 12px rgba(255, 107, 0, 0.3) !important;
+}
+
+#dreamhack-download {
+    background-color: rgba(255, 107, 0, 0.05) !important;
+    border: 1px solid #ff6b00 !important;
+    color: #ff6b00 !important;
+    transition: all 0.2s ease;
+}
+#dreamhack-download:hover {
+    background-color: #ff6b00 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 12px rgba(255, 107, 0, 0.3) !important;
+}
