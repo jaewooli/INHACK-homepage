@@ -124,7 +124,7 @@ export function renderHeaderUI(user) {
     // Guest
     const loginbtn = document.createElement('button');
     loginbtn.id = 'login-btn';
-    loginbtn.textContent = 'Login';
+    loginbtn.textContent = 'Sign In / Sign Up';
     loginbtn.addEventListener('click', () => { location.href = window.__BASE_PATH__ + '/login'; });
     nav.appendChild(loginbtn);
 
