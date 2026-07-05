@@ -2549,7 +2549,7 @@ async function initializeAdminPanel() {
               ${user.solve_count || 0}개
             </a>
           </div>
-          <div class="user-col-activities" style="flex: 2; font-size: 0.8rem; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 8px;" title="${user.activities || '없음'}">
+          <div class="user-col-activities" style="flex: 2; font-size: 0.8rem; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 8px; position: relative; cursor: help;" data-tooltip="${user.activities || '없음'}">
             ${user.activities || '<span style="color: #64748b; font-style: italic;">없음</span>'}
           </div>
           <div class="user-actions">
@@ -3413,7 +3413,6 @@ async function initializeAdminPanel() {
           showToast(payload.message || '가입 코드가 생성되었습니다.', 'success');
           codeInput.value = '';
           genInput.value = '';
-          if (displayBox) displayBox.style.display = 'none';
           loadSignupCodes();
         } else {
           showToast(payload.message || '생성 실패', 'error');
