@@ -1944,7 +1944,7 @@ body.resizing-active {
 
 .page-admin .admin-grid {
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 2rem;
     grid-auto-rows: min-content;
 }
@@ -1957,7 +1957,7 @@ body.resizing-active {
 
 /* Log Card variations */
 .page-admin .log-card {
-    padding: 2rem;
+    padding: 1.5rem 1.25rem;
     background-color: var(--bg-surface);
     display: flex;
     flex-direction: column;
