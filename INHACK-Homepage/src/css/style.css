@@ -2057,20 +2057,20 @@ body.resizing-active {
 }
 
 .page-admin .user-list-header .header-col-username {
-    flex: 1.5;
+    flex: 2;
 }
 
 .page-admin .user-list-header .header-col-name {
-    flex: 1;
+    flex: 0.8;
 }
 
 .page-admin .user-list-header .header-col-solved {
-    width: 75px;
+    width: 60px;
     text-align: center;
 }
 
 .page-admin .user-list-header .header-col-fixed {
-    width: 90px;
+    width: 70px;
     text-align: center;
 }
 
@@ -2152,7 +2152,7 @@ body.resizing-active {
 }
 
 .page-admin .user-col-name {
-    flex: 1.5;
+    flex: 0.8;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2161,7 +2161,7 @@ body.resizing-active {
 }
 
 .page-admin .user-col-solved {
-    width: 75px;
+    width: 60px;
     text-align: center;
     color: #3b82f6;
 }
@@ -2194,7 +2194,7 @@ body.resizing-active {
 }
 
 .page-admin .user-actions {
-    width: 90px;
+    width: 70px;
     display: flex;
     gap: 4px;
     justify-content: center;
@@ -2340,7 +2340,7 @@ body.resizing-active {
 
 .page-admin .user-list-header,
 .page-admin .user-row {
-    min-width: 450px;
+    min-width: unset;
 }
 
 /* Custom Tooltip style for admin user list activities */
