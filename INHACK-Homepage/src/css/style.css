@@ -2139,7 +2139,8 @@ body.resizing-active {
 }
 
 .page-admin .user-col-username {
-    flex: 1.5;
+    flex: 2;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2151,7 +2152,8 @@ body.resizing-active {
 }
 
 .page-admin .user-col-name {
-    flex: 1;
+    flex: 1.5;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2166,7 +2168,7 @@ body.resizing-active {
 
 .page-admin .user-col-activities,
 .page-admin .header-col-activities {
-    flex: 2;
+    flex: 1;
     min-width: 0;
     padding-right: 8px;
 }

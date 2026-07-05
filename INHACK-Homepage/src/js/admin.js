@@ -2549,7 +2549,7 @@ async function initializeAdminPanel() {
               ${user.solve_count || 0}개
             </a>
           </div>
-          <div class="user-col-activities" style="flex: 2; min-width: 0; padding-right: 8px; position: relative; cursor: help; display: flex; align-items: center; overflow: visible;" data-tooltip="${user.activities || '없음'}">
+          <div class="user-col-activities" style="flex: 1; min-width: 0; padding-right: 8px; position: relative; cursor: help; display: flex; align-items: center; overflow: visible;" data-tooltip="${user.activities || '없음'}">
             <span style="font-size: 0.8rem; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; display: block;">
               ${user.activities || '<span style="color: #64748b; font-style: italic;">없음</span>'}
             </span>
