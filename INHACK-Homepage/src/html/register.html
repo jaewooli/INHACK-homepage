@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- INCLUDE: head.html -->
+    <meta name="description" content="INHACK - Portal Member Registration">
+    <title>INHACK Register</title>
+    <link rel="stylesheet" href="{{BASE_PATH}}/assets/css/auth.css">
+    <link rel="stylesheet" href="{{BASE_PATH}}/assets/css/toast.css">
+    <script type="module" src="{{BASE_PATH}}/assets/js/register.js"></script>
+</head>
+<body>
+    <h1>Portal Registration // <a href="{{BASE_PATH}}">INHACK</a></h1>
+
+    <section id="register"> 
+        <h2>Sign Up</h2>
+        <form id="register-form">
+            <label for="register-username">Username (아이디):</label>
+            <input type="text" id="register-username" name="username" placeholder="아이디 입력" required autocomplete="username">
+
+            <label for="register-name">Name (이름):</label>
+            <input type="text" id="register-name" name="name" placeholder="실명 입력" required autocomplete="name">
+
+            <label for="register-password">Password (비밀번호):</label>
+            <input type="password" id="register-password" name="password" placeholder="비밀번호 입력" required autocomplete="new-password">
+            <div id="password-policy-hint" style="font-size: 0.75rem; color: #64748b; margin-top: -1rem; margin-bottom: 1.5rem; line-height: 1.4;">
+                * 영문 대/소문자, 숫자, 특수문자를 각각 최소 1개 이상 포함하고, 최소 8자 이상이어야 합니다.
+            </div>
+
+            <label for="register-code">Signup Code (가입 코드):</label>
+            <input type="text" id="register-code" name="signupCode" placeholder="관리자에게 전달받은 코드 입력" required>
+
+            <button id="register-btn" type="submit">가입하기</button>
+        </form>
+        <p>Already registered? <a href="{{BASE_PATH}}/login">Sign In</a></p>
+    </section>
+</body>
+</html>

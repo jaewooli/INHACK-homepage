@@ -2549,6 +2549,9 @@ async function initializeAdminPanel() {
               ${user.solve_count || 0}개
             </a>
           </div>
+          <div class="user-col-activities" style="flex: 2; font-size: 0.8rem; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 8px;" title="${user.activities || '없음'}">
+            ${user.activities || '<span style="color: #64748b; font-style: italic;">없음</span>'}
+          </div>
           <div class="user-actions">
             ${canManage ? `
               <button class="action-btn manage-menu-btn" style="width: 100%; height: 26px; font-size: 0.75rem; padding: 0;">관리</button>
@@ -3282,6 +3285,109 @@ async function initializeAdminPanel() {
     });
   }
 
+  async function loadSignupCodes() {
+    const container = document.getElementById('admin-code-list-container');
+    if (!container) return;
+
+    try {
+      const res = await fetch(window.__BASE_PATH__ + '/admin/signup-codes');
+      if (!res.ok) throw new Error('Failed to fetch signup codes');
+      const payload = await res.json();
+      if (!payload.ok || !payload.data) {
+        container.innerHTML = `<div style="font-size: 0.8rem; color: #ef4444; padding: 10px;">로드 실패: ${payload.message || '오류'}</div>`;
+        return;
+      }
+
+      const codes = payload.data;
+      if (codes.length === 0) {
+        container.innerHTML = `<div style="font-size: 0.8rem; color: #64748b; text-align: center; padding: 15px;">생성된 가입 코드가 없습니다.</div>`;
+        return;
+      }
+
+      container.innerHTML = codes.map(c => {
+        return `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; font-size: 0.8rem;">
+            <div>
+              <span style="font-weight: 700; color: #f59e0b; font-family: monospace; display: block;">${c.code}</span>
+              <span style="color: #94a3b8; font-size: 0.75rem;">기수: ${c.generation}</span>
+            </div>
+            <button class="delete-code-btn action-btn" data-code="${c.code}" style="padding: 4px 8px; font-size: 0.7rem; border-color: #ef4444; color: #ef4444; margin-top: 0; min-height: auto; width: auto; cursor: pointer;">삭제</button>
+          </div>
+        `;
+      }).join('');
+
+      // Add delete event listeners
+      container.querySelectorAll('.delete-code-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const codeToDelete = btn.dataset.code;
+          if (confirm(`정말로 가입 코드 '${codeToDelete}'를 삭제하시겠습니까?`)) {
+            try {
+              const delRes = await fetch(window.__BASE_PATH__ + `/admin/signup-codes/${encodeURIComponent(codeToDelete)}`, {
+                method: 'DELETE'
+              });
+              const delPayload = await delRes.json();
+              if (delRes.ok && delPayload.ok) {
+                showToast(delPayload.message || '성공적으로 삭제되었습니다.', 'success');
+                loadSignupCodes();
+              } else {
+                showToast(delPayload.message || '삭제 실패', 'error');
+              }
+            } catch (err) {
+              console.error(err);
+              showToast('서버 통신 오류', 'error');
+            }
+          }
+        });
+      });
+
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = `<div style="font-size: 0.8rem; color: #ef4444; padding: 10px;">가입 코드 조회 실패</div>`;
+    }
+  }
+
+  function initSignupCodesManager() {
+    const form = document.getElementById('admin-create-code-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const codeInput = document.getElementById('admin-code-val');
+      const genInput = document.getElementById('admin-code-gen');
+      
+      const code = codeInput.value.trim();
+      const generation = genInput.value.trim();
+
+      if (!code || !generation) {
+        showToast('가입 코드와 기수명을 입력해 주세요.', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch(window.__BASE_PATH__ + '/admin/signup-codes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code, generation })
+        });
+        const payload = await res.json();
+        if (res.ok && payload.ok) {
+          showToast(payload.message || '가입 코드가 생성되었습니다.', 'success');
+          codeInput.value = '';
+          genInput.value = '';
+          loadSignupCodes();
+        } else {
+          showToast(payload.message || '생성 실패', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('서버 통신 오류', 'error');
+      }
+    });
+
+    loadSignupCodes();
+  }
+
+  initSignupCodesManager();
   loadUserList();
 }
 

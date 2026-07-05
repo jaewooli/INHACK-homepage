@@ -48,6 +48,30 @@
                     </div>
                 </div>
 
+                <!-- 활동 기수 정보 -->
+                <div class="section-card">
+                    <div class="section-header">활동 기수 정보</div>
+                    <div class="section-body">
+                        <div style="margin-bottom: 1.5rem;">
+                            <span class="info-label" style="display: block; margin-bottom: 0.5rem;">참여 중인 활동 기수</span>
+                            <div id="activity-list" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <!-- 기수 뱃지들이 여기에 렌더링됨 -->
+                            </div>
+                        </div>
+                        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5rem 0;">
+                        <form class="form-stack" id="add-activity-form" autocomplete="off" style="margin-top: 1rem;">
+                            <div class="form-field">
+                                <label for="activity-code">추가 활동 등록 코드</label>
+                                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                    <input type="text" id="activity-code" placeholder="가입 코드를 입력하세요" style="margin-bottom: 0; flex: 1;">
+                                    <button type="submit" class="submit-btn" id="add-activity-btn" style="margin-top: 0; padding: 0.8rem 1.5rem; white-space: nowrap; height: 100%;">등록</button>
+                                </div>
+                                <span class="pw-hint">새로운 학기/기수가 시작되었을 때 전달받은 코드를 입력해 새로운 활동 기수를 추가할 수 있습니다.</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Change password -->
                 <div class="section-card">
                     <div class="section-header">비밀번호 변경</div>

@@ -68,10 +68,13 @@ router.get('/users', (req, res) => {
   const superAdminUser = env.ADMIN_USERNAME || 'developer';
 
   db.all(
-    `SELECT id, username, name, is_blocked, is_admin, 
-            (SELECT COUNT(*) FROM dreamhack_solves s WHERE s.username = users.username) AS solve_count 
-     FROM users 
-     ORDER BY (username = 'developer' OR username = ?) DESC, id DESC`,
+    `SELECT u.id, u.username, u.name, u.is_blocked, u.is_admin, 
+            (SELECT COUNT(*) FROM dreamhack_solves s WHERE s.username = u.username) AS solve_count,
+            GROUP_CONCAT(ua.activity, ', ') AS activities
+     FROM users u 
+     LEFT JOIN user_activities ua ON u.id = ua.user_id
+     GROUP BY u.id
+     ORDER BY (u.username = 'developer' OR u.username = ?) DESC, u.id DESC`,
     [superAdminUser],
     (err, rows) => {
       if (err) {
@@ -1344,6 +1347,80 @@ router.post('/restore-menu', (req, res) => {
     console.error('[Restore Menu Error] Process failed:', err.message);
     return sendJson(res, { status: 500, ok: false, message: `복원 처리 중 에러 발생: ${err.message}`, code: 'SERVER_ERROR' });
   }
+});
+
+// Admin Route: Get list of all signup codes
+router.get('/signup-codes', (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return sendJson(res, { status: 403, ok: false, message: 'Forbidden', code: 'FORBIDDEN' });
+  }
+
+  db.all(`SELECT code, generation, created_at FROM signup_codes ORDER BY created_at DESC`, [], (err, rows) => {
+    if (err) {
+      console.error('[Admin DB Error] Failed to list signup codes:', err.message);
+      return sendJson(res, { status: 500, ok: false, message: '가입 코드 목록 조회 실패', code: 'DB_ERROR' });
+    }
+    return sendJson(res, { status: 200, ok: true, data: rows, code: 'SUCCESS' });
+  });
+});
+
+// Admin Route: Create a new signup code
+router.post('/signup-codes', (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return sendJson(res, { status: 403, ok: false, message: 'Forbidden', code: 'FORBIDDEN' });
+  }
+
+  const { code, generation } = req.body;
+  if (!code || !generation) {
+    return sendJson(res, { status: 400, ok: false, message: '가입 코드와 기수명(활동명)을 입력해 주세요.', code: 'BAD_REQUEST' });
+  }
+
+  const trimmedCode = code.trim();
+  const trimmedGen = generation.trim();
+
+  if (!trimmedCode || !trimmedGen) {
+    return sendJson(res, { status: 400, ok: false, message: '입력란에 공백만 입력할 수는 없습니다.', code: 'BAD_REQUEST' });
+  }
+
+  const timestamp = new Date().toISOString();
+
+  db.run(
+    `INSERT INTO signup_codes (code, generation, created_at) VALUES (?, ?, ?)`,
+    [trimmedCode, trimmedGen, timestamp],
+    (err) => {
+      if (err) {
+        if (err.message.includes('UNIQUE constraint failed')) {
+          return sendJson(res, { status: 409, ok: false, message: '이미 존재하는 가입 코드입니다.', code: 'ALREADY_EXISTS' });
+        }
+        console.error('[Admin DB Error] Failed to insert signup code:', err.message);
+        return sendJson(res, { status: 500, ok: false, message: '가입 코드 생성 실패', code: 'DB_ERROR' });
+      }
+      return sendJson(res, { status: 200, ok: true, message: `가입 코드 '${trimmedCode}'(이)가 성공적으로 생성되었습니다.`, code: 'SUCCESS' });
+    }
+  );
+});
+
+// Admin Route: Delete a signup code
+router.delete('/signup-codes/:code', (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return sendJson(res, { status: 403, ok: false, message: 'Forbidden', code: 'FORBIDDEN' });
+  }
+
+  const targetCode = req.params.code;
+  if (!targetCode) {
+    return sendJson(res, { status: 400, ok: false, message: '삭제할 가입 코드가 지정되지 않았습니다.', code: 'BAD_REQUEST' });
+  }
+
+  db.run(`DELETE FROM signup_codes WHERE code = ?`, [targetCode], function (err) {
+    if (err) {
+      console.error('[Admin DB Error] Failed to delete signup code:', err.message);
+      return sendJson(res, { status: 500, ok: false, message: '가입 코드 삭제 실패', code: 'DB_ERROR' });
+    }
+    if (this.changes === 0) {
+      return sendJson(res, { status: 404, ok: false, message: '해당 가입 코드를 찾을 수 없습니다.', code: 'NOT_FOUND' });
+    }
+    return sendJson(res, { status: 200, ok: true, message: `가입 코드 '${targetCode}'가 삭제되었습니다.`, code: 'SUCCESS' });
+  });
 });
 
 module.exports = router;

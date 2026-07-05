@@ -219,6 +219,11 @@ router.get('/:url', (req, res) => {
     return res.redirect(basePath + '/login');
   }
 
+  // Guard: Redirect authenticated requests on login/register pages to home
+  if ((fileName === 'login' || fileName === 'register') && req.session.user) {
+    return res.redirect(basePath + '/');
+  }
+
   // Guard: Redirect unauthenticated/non-admin requests to Admin Panel to login page
   if (fileName === 'admin' && (!req.session.user || !req.session.user.isAdmin)) {
     return res.redirect(basePath + '/login');

@@ -156,9 +156,30 @@ function renderProfile(user) {
 
   if (infoUser) infoUser.textContent = user.username;
   if (infoName) infoName.textContent = user.name || '—';
-  if (infoRole) {
-    infoRole.textContent = user.isSuperAdmin ? '최고 관리자 (Super Admin)' :
-                           user.isAdmin      ? '관리자 (Admin)' : '일반 회원 (Member)';
+  }
+
+  // Render activity generations list
+  const activityList = document.getElementById('activity-list');
+  if (activityList) {
+    activityList.innerHTML = '';
+    const acts = user.activities || [];
+    if (acts.length === 0) {
+      activityList.innerHTML = '<span style="color: #64748b; font-size: 0.85rem;">참여 중인 활동 기수가 없습니다. 아래 등록 코드를 입력하여 추가해 주세요.</span>';
+    } else {
+      acts.forEach(act => {
+        const badge = document.createElement('span');
+        badge.className = 'profile-badge';
+        badge.style.backgroundColor = 'rgba(59, 130, 246, 0.15)';
+        badge.style.color = '#3b82f6';
+        badge.style.border = '1px solid rgba(59, 130, 246, 0.3)';
+        badge.style.padding = '0.3rem 0.8rem';
+        badge.style.borderRadius = '4px';
+        badge.style.fontSize = '0.85rem';
+        badge.style.fontWeight = '500';
+        badge.textContent = act;
+        activityList.appendChild(badge);
+      });
+    }
   }
 }
 
@@ -243,6 +264,47 @@ function initPasswordForm() {
   });
 }
 
+function initActivityForm() {
+  const form = document.getElementById('add-activity-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('add-activity-btn');
+    const input = document.getElementById('activity-code');
+    const code = input.value.trim();
+
+    if (!code) {
+      showToast('코드를 입력해 주세요.', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '등록 중...';
+
+    try {
+      const res = await apiRequest(window.__BASE_PATH__ + '/add-activity', 'POST', { signupCode: code });
+      if (res.ok) {
+        showToast(res.message || '활동 기수가 성공적으로 등록되었습니다!', 'success');
+        input.value = '';
+        
+        // Update user state and re-render profile
+        if (res.data && res.data.activities) {
+          window.__currentUser.activities = res.data.activities;
+          renderProfile(window.__currentUser);
+        }
+      } else {
+        showToast(res.message || '등록에 실패했습니다.', 'error');
+      }
+    } catch (err) {
+      showToast('서버 통신 오류가 발생했습니다.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '등록';
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const res = await apiRequest(window.__BASE_PATH__ + '/me', 'GET');
   const user = res.ok ? res.data : null;
@@ -257,4 +319,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderProfile(user);
   await loadSidebarNavigation();
   initPasswordForm();
+  initActivityForm();
 });

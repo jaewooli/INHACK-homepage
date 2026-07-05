@@ -100,6 +100,26 @@ db.serialize(() => {
         updated_at TEXT
     )`);
 
+    // Create signup codes table
+    db.run(`CREATE TABLE IF NOT EXISTS signup_codes (
+        code TEXT PRIMARY KEY,
+        generation TEXT NOT NULL,
+        created_at TEXT
+    )`);
+
+    // Create user activities table for tracking multiple generations per user
+    db.run(`CREATE TABLE IF NOT EXISTS user_activities (
+        user_id INTEGER,
+        activity TEXT,
+        PRIMARY KEY (user_id, activity),
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    )`);
+
+    // Seed default signup codes
+    const nowIso = new Date().toISOString();
+    db.run(`INSERT OR IGNORE INTO signup_codes (code, generation, created_at) VALUES ('INHACK_2026_1', '2026-1 활동', ?)`, [nowIso]);
+    db.run(`INSERT OR IGNORE INTO signup_codes (code, generation, created_at) VALUES ('INHACK_2026_2', '2026-2 활동', ?)`, [nowIso]);
+
     // Perform database migration to add content_md to site_contents if it doesn't exist
     db.run(`ALTER TABLE site_contents ADD COLUMN content_md TEXT`, [], (err) => {
         if (err && !err.message.includes('duplicate column name')) {

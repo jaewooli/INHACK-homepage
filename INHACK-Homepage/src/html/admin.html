@@ -89,6 +89,28 @@
                                     </form>
                                     <div id="admin-csv-result" class="csv-result"></div>
                                 </div>
+
+                                <!-- Card 2.5: Signup Code Management -->
+                                <div class="log-card card-yellow" style="border-color: rgba(245, 158, 11, 0.25); margin-top: 1.5rem;">
+                                    <div class="log-card-title" style="color: #f59e0b;">🔑 가입 코드 관리</div>
+                                    <form id="admin-create-code-form" class="admin-form" style="margin-bottom: 1.5rem;">
+                                        <div class="admin-form-group" style="margin-bottom: 1rem;">
+                                            <label for="admin-code-val">가입 코드 (Signup Code)</label>
+                                            <input type="text" id="admin-code-val" placeholder="예: INHACK_2026_1" required style="margin-bottom: 0;">
+                                        </div>
+                                        <div class="admin-form-group" style="margin-bottom: 1rem;">
+                                            <label for="admin-code-gen">부여할 기수명 (Activity Period)</label>
+                                            <input type="text" id="admin-code-gen" placeholder="예: 2026-1 활동" required style="margin-bottom: 0;">
+                                        </div>
+                                        <button type="submit" class="action-btn" style="border-color: #f59e0b; color: #f59e0b; margin-top: 0.5rem;">가입 코드 생성</button>
+                                    </form>
+                                    <div class="code-list-wrapper" style="margin-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1rem;">
+                                        <span style="font-size: 0.8rem; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 0.5rem;">생성된 가입 코드 목록</span>
+                                        <div id="admin-code-list-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 4px;">
+                                            <div style="font-size: 0.8rem; color: #64748b;">가입 코드를 불러오는 중...</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Card 3: User List and Deletion -->
@@ -99,6 +121,7 @@
                                         <div class="header-col-username">아이디 (Username)</div>
                                         <div class="header-col-name">이름 (Name)</div>
                                         <div class="header-col-solved">푼 문제</div>
+                                        <div class="header-col-activities" style="flex: 2;">활동 기수</div>
                                         <div class="header-col-fixed">작업</div>
                                     </div>
                                     <div id="admin-user-list-container" class="user-list-container">
