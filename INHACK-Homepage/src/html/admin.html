@@ -96,9 +96,12 @@
                                     <form id="admin-create-code-form" class="admin-form" style="margin-bottom: 1.5rem;">
                                         <div class="admin-form-group" style="margin-bottom: 1rem;">
                                             <label for="admin-code-val">가입 코드 (Signup Code)</label>
-                                            <div style="display: flex; gap: 8px;">
-                                                <input type="text" id="admin-code-val" placeholder="직접 입력하거나 우측 생성 버튼 클릭" required style="margin-bottom: 0; flex: 1;">
-                                                <button type="button" id="admin-gen-rand-code-btn" class="action-btn" style="margin-top: 0; padding: 0.8rem 1rem; font-size: 0.75rem; white-space: nowrap; border-color: #f59e0b; color: #f59e0b; height: 100%;">랜덤 생성</button>
+                                            <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
+                                                <input type="text" id="admin-code-val" placeholder="직접 입력하거나 우측 생성 버튼 클릭" required style="margin-bottom: 0; flex: 1; height: 42px; padding: 0 12px; box-sizing: border-box;">
+                                                <button type="button" id="admin-gen-rand-code-btn" class="action-btn" style="margin-top: 0; padding: 0 16px; font-size: 0.75rem; white-space: nowrap; border-color: #f59e0b; color: #f59e0b; height: 42px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">랜덤 생성</button>
+                                            </div>
+                                            <div id="admin-generated-code-display" style="display: none; margin-top: 0.75rem; padding: 10px; background: rgba(245, 158, 11, 0.08); border: 1px dashed rgba(245, 158, 11, 0.3); border-radius: 4px; font-size: 0.85rem; color: #f59e0b; cursor: pointer; text-align: center;" title="클릭하여 복사">
+                                                생성된 코드: <strong id="admin-generated-code-text" style="font-family: monospace; font-size: 0.95rem; margin-left: 4px; letter-spacing: 0.5px;"></strong> <span style="font-size: 0.7rem; color: #94a3b8; margin-left: 8px;">(클릭하여 복사)</span>
                                             </div>
                                         </div>
                                         <div class="admin-form-group" style="margin-bottom: 1rem;">

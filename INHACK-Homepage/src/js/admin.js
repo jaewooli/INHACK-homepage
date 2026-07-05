@@ -3351,6 +3351,9 @@ async function initializeAdminPanel() {
     if (!form) return;
 
     const randBtn = document.getElementById('admin-gen-rand-code-btn');
+    const displayBox = document.getElementById('admin-generated-code-display');
+    const displayText = document.getElementById('admin-generated-code-text');
+
     if (randBtn) {
       randBtn.addEventListener('click', () => {
         const codeInput = document.getElementById('admin-code-val');
@@ -3363,6 +3366,25 @@ async function initializeAdminPanel() {
             randomCode += chars[array[i] % chars.length];
           }
           codeInput.value = randomCode;
+
+          if (displayBox && displayText) {
+            displayText.textContent = randomCode;
+            displayBox.style.display = 'block';
+          }
+        }
+      });
+    }
+
+    if (displayBox && displayText) {
+      displayBox.addEventListener('click', async () => {
+        const codeToCopy = displayText.textContent;
+        if (codeToCopy) {
+          try {
+            await navigator.clipboard.writeText(codeToCopy);
+            showToast('코드가 클립보드에 복사되었습니다!', 'success');
+          } catch (err) {
+            showToast('클립보드 복사 실패', 'error');
+          }
         }
       });
     }
@@ -3391,6 +3413,7 @@ async function initializeAdminPanel() {
           showToast(payload.message || '가입 코드가 생성되었습니다.', 'success');
           codeInput.value = '';
           genInput.value = '';
+          if (displayBox) displayBox.style.display = 'none';
           loadSignupCodes();
         } else {
           showToast(payload.message || '생성 실패', 'error');

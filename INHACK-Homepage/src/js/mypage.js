@@ -156,6 +156,9 @@ function renderProfile(user) {
 
   if (infoUser) infoUser.textContent = user.username;
   if (infoName) infoName.textContent = user.name || '—';
+  if (infoRole) {
+    infoRole.textContent = user.isSuperAdmin ? '최고 관리자 (Super Admin)' :
+                           user.isAdmin      ? '관리자 (Admin)' : '일반 회원 (Member)';
   }
 
   // Render activity generations list
