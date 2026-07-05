@@ -1,0 +1,21 @@
+[
+  {
+    "type": "header",
+    "title": "CryptoGraphy",
+    "desc": "암호학"
+  },
+  {
+    "type": "phases",
+    "items": [
+      {
+        "phase": "Phase 01",
+        "title": "단계 제목",
+        "desc": "해당 단계에서 공부하는 주요 개념",
+        "topics": [
+          "상세 주제 1",
+          "상세 주제 2"
+        ]
+      }
+    ]
+  }
+]
